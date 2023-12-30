@@ -1,9 +1,11 @@
 type OriginType = "github-repo" | "vscode-marketplace" | unknown
 
+type Manifest = {};
+
 type VsCodeTheme = {
   origin: string,
   originType: OriginType,
-  manifest: any;
+  manifest: Manifest;
 }
 
 export async function getTheme(origin: string): Promise<VsCodeTheme>  {
