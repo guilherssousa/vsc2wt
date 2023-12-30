@@ -1,14 +1,18 @@
 <script lang="ts">
-  import { getTheme } from "./lib/converter";
+  import Output from "./lib/Output.svelte";
+  import { getTheme, type VsCodeTheme } from "./lib/converter";
   
   let output = "";
+  let theme: VsCodeTheme;
 
   async function handleFormSubmit(e: SubmitEvent) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
+
     const themeOrigin = formData.get('themeOrigin') as string;
     
-    const theme = await getTheme(themeOrigin);
+    theme = await getTheme(themeOrigin);
+    console.log(theme)
 
     output = JSON.stringify(theme, null, 2);
   }
@@ -34,11 +38,17 @@
       </form>
     </div>
 
-    <div class="output">
-      <code>
-        <pre>{output}</pre>
-      </code>
+
+    <div class="token-list">
+      {#if theme?.manifest?.contributes?.themes}
+        <p>Available themes:</p>
+        {#each theme.manifest.contributes.themes as themeVariant}
+          <div class="token">{themeVariant.label}</div>
+        {/each}
+      {/if}
     </div>
+
+    <Output text={output} />
   </div>
 </main>
 
@@ -69,5 +79,22 @@
   .output {
     background-color: #1e1e1e;
     padding: 16px;
+
+    margin-top: 16px;
+    border: 1px solid #333;
+    border-radius: 4px;
+  }
+
+  .token-list {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    column-gap: 16px;
+    flex-wrap: wrap;
+
+    .token {
+      padding: 4px 8px;
+      border: 1px solid #333;
+    }
   }
 </style>
