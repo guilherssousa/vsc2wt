@@ -30,7 +30,7 @@ export type VsCodeTheme = {
 type ThemeColorDefinitions = {
   name: string,
   colors : {
-    "terminal.background": string,
+    "editor.background": string,
     "terminal.foreground": string,
     "terminal.ansiBlack": string,
     "terminal.ansiBlue": string,
@@ -51,6 +51,8 @@ type ThemeColorDefinitions = {
     "terminal.selectionBackground": string,
   },
 }
+
+export type WindowsTerminalTheme = ReturnType<typeof convertToMST>[0]
 
 export async function getTheme(origin: string): Promise<VsCodeTheme | undefined>  {
   try {
@@ -123,7 +125,7 @@ export async function getThemeFiles(theme: VsCodeTheme) {
 export function convertToMST(themes: ThemeColorDefinitions[]) {
   return themes.map(({ colors, name }) => ({
     name: name,
-    background: colors["terminal.background"],
+    background: colors["editor.background"],
     foreground: colors["terminal.foreground"],
     black: colors["terminal.ansiBlack"],
     blue: colors["terminal.ansiBlue"],

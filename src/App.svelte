@@ -1,9 +1,14 @@
 <script lang="ts">
   import Output from "./lib/Output.svelte";
+  import ThemeToken from "./lib/ThemeToken.svelte";
+
   import { getTheme, getThemeFiles, convertToMST, type VsCodeTheme } from "./lib/converter";
+
+  import './theme.scss';
   
   let output = "";
   let theme: VsCodeTheme | undefined;
+  let convertedThemes: ReturnType<typeof convertToMST>
 
   async function handleFormSubmit(e: SubmitEvent) {
     e.preventDefault();
@@ -18,7 +23,7 @@
     }
 
     const themeFiles = await getThemeFiles(theme)
-    const convertedThemes = convertToMST(themeFiles)
+    convertedThemes = convertToMST(themeFiles)
 
     output = JSON.stringify(convertedThemes, null, 2);
   }
@@ -50,21 +55,36 @@
     </div>
 
 
-    <div class="token-list">
-      {#if theme?.manifest?.contributes?.themes}
-        <p>Available themes:</p>
-        {#each theme.manifest.contributes.themes as themeVariant}
-          <div class="token">{themeVariant.label}</div>
+    {#if convertedThemes}
+      <p>Available themes:</p>
+      <div class="token-list">
+        {#each convertedThemes as themeVariant}
+          <ThemeToken theme={themeVariant} /> 
         {/each}
-      {/if}
-    </div>
+      </div>
+    {/if}
 
     <Output text={output} />
   </div>
 </main>
 
 <style lang="scss">
-  main {
+  :root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    color-scheme: light dark;
+    color: var(--white);
+    background-color: var(--background);
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+ main {
     width: 100vw;
   }
 
@@ -90,24 +110,24 @@
   .icons {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 32px;
+
+    width: fit-content;
+    margin: 0 auto;
 
     img {
-      height: 32px;
+      height: 48px;
       width: auto;
     }
   }
 
   .token-list {
-    margin-top: 16px;
+    margin-top: 8px;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
-    column-gap: 16px;
+    column-gap: 8px;
+    row-gap: 8px;
     flex-wrap: wrap;
-
-    .token {
-      padding: 4px 8px;
-      border: 1px solid #333;
-    }
-  }
+   }
 </style>
