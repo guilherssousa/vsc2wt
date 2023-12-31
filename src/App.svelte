@@ -31,15 +31,16 @@
 
 
 <main>
+  <div class="background"/>
   <div class="container">
     <div class="icons">
       <img src="/vscode.png" alt="VS Code" />
       <img src="/windows-terminal.png" alt="Windows Terminal" />
     </div>
 
-    <h1>
+    <h2>
       VS Code to Windows Terminal Theme Converter
-    </h1>
+    </h2>
 
     <p>
       This is a simple tool to convert VS Code themes to Window Terminal color schemes. 
@@ -50,7 +51,13 @@
     <div>
       <form on:submit={handleFormSubmit}>
         <input type="text" name="themeOrigin" placeholder="GitHub link, e.g.: https://github.com/catpuccin/vscode.git" />
-        <button type="submit">Convert</button>
+        <button type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+
+          Convert
+        </button>
       </form>
     </div>
 
@@ -84,26 +91,58 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  h2 {
+    text-align: center;
+  }
+
  main {
     width: 100vw;
   }
 
+  .background {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 200px;
+    background-color: var(--blue);
+  }
+
   .container {
+    position: relative;
+    z-index: 100;
     max-width: 720px;
     margin: 0 auto;
+    background-color: var(--black);
+    padding: 2rem 1rem;
+    margin-top: 4rem;
   }
 
   form {
     width: 100%;
     display: flex;
-    column-gap: 16px;
+    column-gap: 8px;
 
     input, button {
       padding: 8px 16px; 
+      outline: none;
+      background-color: var(--background);
+      border: 1px solid var(--selectionBackground);
     }
 
     input {
       width: 100%;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+
+      svg {
+        color: var(--white);
+        height: 24px;
+        margin-right: 8px;
+      }
     }
   }
 
