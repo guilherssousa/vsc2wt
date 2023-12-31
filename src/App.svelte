@@ -37,6 +37,7 @@
   <div class="container">
     <div class="icons">
       <img src="/vscode.png" alt="VS Code" />
+      <span>&rarr;</span>
       <img src="/windows-terminal.png" alt="Windows Terminal" />
     </div>
 
@@ -158,10 +159,15 @@
   .icons {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 16px;
 
     width: fit-content;
     margin: 0 auto;
+
+    span {
+      font-size: 2rem;
+      font-weight: bold;
+    }
 
     img {
       height: 48px;
