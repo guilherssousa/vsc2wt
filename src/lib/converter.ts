@@ -146,3 +146,18 @@ export function convertToMST(themes: ThemeColorDefinitions[]) {
     selectionBackground: colors["terminal.selectionBackground"],
   }))
 }
+
+export function themeToVar(theme: WindowsTerminalTheme) {
+  if (!theme) return ``;
+
+  const styles = `
+    --white: ${theme.white};
+    --blue: ${theme.blue};
+    --black: ${theme.black};
+    --background: ${theme.background};
+    --foreground: ${theme.foreground};
+    --selectionBackground: ${theme.selectionBackground};
+  `;
+
+  return styles;
+}

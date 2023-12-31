@@ -2,13 +2,14 @@
   import Output from "./lib/Output.svelte";
   import ThemeToken from "./lib/ThemeToken.svelte";
 
-  import { getTheme, getThemeFiles, convertToMST, type VsCodeTheme } from "./lib/converter";
+  import { getTheme, getThemeFiles, convertToMST, themeToVar, type VsCodeTheme } from "./lib/converter";
 
   import './theme.scss';
   
   let output = "";
   let theme: VsCodeTheme | undefined;
   let convertedThemes: ReturnType<typeof convertToMST>
+  let customStyle: string;
 
   async function handleFormSubmit(e: SubmitEvent) {
     e.preventDefault();
@@ -24,13 +25,14 @@
 
     const themeFiles = await getThemeFiles(theme)
     convertedThemes = convertToMST(themeFiles)
+    customStyle = themeToVar(convertedThemes[0])
 
     output = JSON.stringify(convertedThemes, null, 2);
   }
 </script>
 
 
-<main>
+<main style={customStyle}>
   <div class="background"/>
   <div class="container">
     <div class="icons">
@@ -83,7 +85,7 @@
 </main>
 
 <style lang="scss">
-  :root {
+  :global(:root) {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
@@ -180,6 +182,6 @@
    .badges {
      display: flex;
      align-items: center;
-     gap: 16px;
+     gap: 8px;
    }
 </style>
