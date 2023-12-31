@@ -1,4 +1,4 @@
-# [Visual Studio Code to Windows Terminal Theme Converter](https://vsc2mst.guilherssousa.dev)
+# [Visual Studio Code to Windows Terminal Theme Converter](https://vsc2wt.guilherssousa.dev)
 
 ![Contributions open!](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 ![Hosted on Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
@@ -15,7 +15,7 @@ your favorite Visual Studio Code themes to Windows Terminal color schemes.
 
 ## Reporting issues
 
-If you had any bad time using vsc2wt, then please check the [Issues](https://github.com/guilherssousa/vsc2mst/issues)
+If you had any bad time using vsc2wt, then please check the [Issues](https://github.com/guilherssousa/vsc2wt/issues)
 list, someone may had the same problem as you. If not, feel free to
 open a new Issue describing your problem.
 
