@@ -46,10 +46,10 @@
     </h2>
 
     <div class="badges">
+      <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Hosted on Vercel" />
       <a href="https://github.com/guilherssousa/vsc2mst/#contributing">
         <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="Contributions welcome!"/>
       </a>
-      <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Hosted on Vercel" />
     </div>
 
     <p>
@@ -189,5 +189,10 @@
      display: flex;
      align-items: center;
      gap: 8px;
+
+     a {
+       display: flex;
+       align-items: center;
+     }
    }
 </style>
