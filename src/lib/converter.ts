@@ -1,7 +1,5 @@
 type OriginType = "github-repo" | "vscode-marketplace" | unknown
 
-export type Theme = {};
-
 export type ThemeDefinition = {
   label: string,
   uiTheme: string,
@@ -24,12 +22,10 @@ type Manifest = {
 export type VsCodeTheme = {
   origin: string,
   originType: OriginType,
-  themes: Theme[],
   manifest: Manifest;
 }
 
 const BRANCHES = ["main", "master"];
-let BRANCH = BRANCHES[0];
 
 export async function getTheme(origin: string): Promise<VsCodeTheme>  {
   const theme: Partial<VsCodeTheme> = {}
@@ -40,24 +36,17 @@ export async function getTheme(origin: string): Promise<VsCodeTheme>  {
     case "github.com":
       theme.originType = "github-repo";
       theme.manifest = await getManifest(origin);
-      break
+      break 
     case "marketplace.visualstudio.com":
       theme.originType = "vscode-marketplace";
-      break
   }
-
-  //theme.themes = await getThemes(theme.manifest.contribues.themes)
 
   return theme as VsCodeTheme
 }
 
-async function getThemes(themeDefinitions: ThemeDefinition[]): Theme[] {
-  return [];
-}
-
 /* Try over different repositories and branches */
-async function fetchGitFile(userRepository: string, file: string, branch: string = "main"): Promise<Manifest | undefined> {
-  const manifestUrl = `https://raw.githubusercontent.com/${userRepository}/${branch}/${file}`;
+async function fetchManifest(user:string, repository:string, branch: string = "main"): Promise<Manifest | undefined> {
+  const manifestUrl = `https://raw.githubusercontent.com/${user}/${repository}/${branch}/package.json`;
   const request = await fetch(manifestUrl);
 
   if (!request.ok) {
@@ -68,10 +57,10 @@ async function fetchGitFile(userRepository: string, file: string, branch: string
 }
 
 export async function getManifest(repositoryUrl: string): Promise<Manifest | undefined>  {
-  const [user, repository] = repositoryUrl.split("/").filter(Boolean).slice(1);
+  const [user, repository] = repositoryUrl.split("/").filter(Boolean).slice(-2);
 
   for (const branch of BRANCHES) {
-    const response = await fetchGitFile(`${user}/${repository}`, "package.json", branch);
+    const response = await fetchManifest(user, repository, branch);
     if (response) return response;
   }
 
@@ -84,6 +73,8 @@ function safeParseJson<T>(jsonString: string): T {
     .split("\n")
     .filter(line => line && !line.trim().startsWith("//"))
     .join("\n");
+
+  console.log(jsonString);
 
   return JSON.parse(removedComments);
 } 
