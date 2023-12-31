@@ -1,20 +1,26 @@
 <script lang="ts">
   import Output from "./lib/Output.svelte";
-  import { getTheme, type VsCodeTheme } from "./lib/converter";
+  import { getTheme, getThemeFiles, convertToMST, type VsCodeTheme } from "./lib/converter";
   
   let output = "";
-  let theme: VsCodeTheme;
+  let theme: VsCodeTheme | undefined;
 
   async function handleFormSubmit(e: SubmitEvent) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
 
     const themeOrigin = formData.get('themeOrigin') as string;
-    
+  
     theme = await getTheme(themeOrigin);
-    console.log(theme)
+    if (!theme) {
+      output = "Invalid theme";
+      return;
+    }
 
-    output = JSON.stringify(theme, null, 2);
+    const themeFiles = await getThemeFiles(theme)
+    const convertedThemes = convertToMST(themeFiles)
+
+    output = JSON.stringify(convertedThemes, null, 2);
   }
 </script>
 
