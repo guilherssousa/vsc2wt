@@ -11,6 +11,9 @@ type Manifest = {
   publisher: string,
   version: string,
   description: string,
+  scripts?: {
+    build?: string;
+  },
   repository?: {
     url: string,
   },
@@ -52,28 +55,44 @@ type ThemeColorDefinitions = {
   },
 }
 
-export type WindowsTerminalTheme = ReturnType<typeof convertToMST>[0]
+export type WindowsTerminalTheme = ReturnType<typeof convertToMST>[0];
 
-export async function getTheme(origin: string): Promise<VsCodeTheme | undefined>  {
+type ThemeResult = {
+  theme: VsCodeTheme | undefined,
+  error: string | undefined,
+}
+
+export async function getTheme(origin: string): Promise<ThemeResult>  {
   try {
-  const theme: Partial<VsCodeTheme> = {}
+    const theme: Partial<VsCodeTheme> = {}
 
-  const url = new URL(origin);
+    const url = new URL(origin);
 
-  switch (url.hostname) {
-    case "github.com":
-      theme.originType = "github-repo";
-      theme.repository = getRepository(origin)
-      theme.branch = await getRepositoryDefaultBranch(theme.repository);
-      theme.manifest = await getManifest(theme.repository, theme.branch);
-      break 
-    case "marketplace.visualstudio.com":
-      theme.originType = "vscode-marketplace";
-  }
+    switch (url.hostname) {
+      case "github.com":
+        theme.originType = "github-repo";
+        theme.repository = getRepository(origin)
+        theme.branch = await getRepositoryDefaultBranch(theme.repository);
+        theme.manifest = await getManifest(theme.repository, theme.branch);
+        break 
+      case "marketplace.visualstudio.com":
+        theme.originType = "vscode-marketplace";
+        break
+    }
 
-  return theme as VsCodeTheme
-  } catch (e) {
-    return undefined
+    if (theme.manifest?.scripts?.build) {
+      throw new Error("Theme extensions with build scripts are not supported yet.")
+    }
+
+    return {
+      theme: theme as VsCodeTheme,
+      error: undefined,
+    } 
+  } catch (e: unknown) {
+    return {
+      theme: undefined,
+      error: (e as Error).message,
+    }
   }
 }
 
@@ -107,6 +126,7 @@ function safeParseJson<T>(jsonString: string): T {
 } 
 
 export async function getThemeFiles(theme: VsCodeTheme) {
+  try { 
   const promises = theme.manifest.contributes.themes.map(async (themeDefinition) => {
     const request = await fetch(`https://raw.githubusercontent.com/${theme.repository}/${theme.branch}/${themeDefinition.path}`);
     return safeParseJson(await request.text()) as ThemeColorDefinitions
@@ -119,7 +139,16 @@ export async function getThemeFiles(theme: VsCodeTheme) {
   
   const results = successfulPromises.map(promise => promise.value);
 
-  return results;
+  return {
+      themeFiles: results,
+      error: undefined,
+    };
+  } catch (e: unknown) {
+    return {
+      files: undefined,
+      errror: (e as Error).message,
+    }
+  }
 }
 
 export function convertToMST(themes: ThemeColorDefinitions[]) {

@@ -23,14 +23,21 @@
     const formData = new FormData(e.target as HTMLFormElement);
 
     const themeOrigin = formData.get('themeOrigin') as string;
-  
-    theme = await getTheme(themeOrigin);
-    if (!theme) {
-      output = "Invalid theme";
+
+    const { theme: _theme, error: themeError } = await getTheme(themeOrigin);
+
+    if(themeError) {
+      output = themeError;
       return;
     }
+  
+    theme = _theme;
+    let { themeFiles, error: fileError }  = await getThemeFiles(theme as VsCodeTheme)
+  
+    if (fileError) {
+      output = fileError; 
+    }
 
-    const themeFiles = await getThemeFiles(theme)
     convertedThemes = convertToMST(themeFiles)
     customStyle = themeToVar(convertedThemes[0])
 
