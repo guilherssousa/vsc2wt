@@ -42,6 +42,12 @@
       VS Code to Windows Terminal Theme Converter
     </h2>
 
+    <div class="badges">
+      <a href="https://github.com/guilherssousa/vsc2mst/#contributing">
+        <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="Contributions welcome!"/>
+      </a>
+    </div>
+
     <p>
       This is a simple tool to convert VS Code themes to Window Terminal color schemes. 
       You just need to paste the GitHub repository link for the extension and the

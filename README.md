@@ -1,5 +1,7 @@
 # Visual Studio Code to Windows Terminal Theme Converter
 
+![Contributions open!](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
+
 As the name explains, this is a helper tool taht lets your convert
 your favorite Visual Studio Code themes to Windows Terminal color schemes.
 
