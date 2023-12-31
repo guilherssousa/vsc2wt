@@ -78,7 +78,7 @@ export async function getTheme(origin: string): Promise<VsCodeTheme | undefined>
 }
 
 function getRepository(origin: string): string {
-  return origin.split("/").filter(Boolean).slice(2, 4).join("/")
+  return origin.replace(".git","").split("/").filter(Boolean).slice(2, 4).join("/")
 }
 
 async function getRepositoryDefaultBranch(repository: string): Promise<string> {

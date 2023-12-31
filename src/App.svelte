@@ -2,14 +2,21 @@
   import Output from "./lib/Output.svelte";
   import ThemeToken from "./lib/ThemeToken.svelte";
 
-  import { getTheme, getThemeFiles, convertToMST, themeToVar, type VsCodeTheme } from "./lib/converter";
+  import { 
+    getTheme,
+    getThemeFiles,
+    convertToMST,
+    themeToVar,
+    type VsCodeTheme,
+    type WindowsTerminalTheme
+  } from "./lib/converter";
 
   import './theme.scss';
   
-  let output = "";
   let theme: VsCodeTheme | undefined;
-  let convertedThemes: ReturnType<typeof convertToMST>
+  let convertedThemes: WindowsTerminalTheme[] | undefined;
   let customStyle: string;
+  let output: string;
 
   async function handleFormSubmit(e: SubmitEvent) {
     e.preventDefault();
@@ -92,8 +99,6 @@
     font-weight: 400;
 
     color-scheme: light dark;
-    color: var(--white);
-    background-color: var(--background);
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -107,6 +112,7 @@
 
  main {
     width: 100vw;
+    color: var(--white);
   }
 
   .background {

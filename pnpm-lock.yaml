@@ -20,9 +20,6 @@ devDependencies:
   sharp:
     specifier: ^0.33.1
     version: 0.33.1
-  shikiji:
-    specifier: ^0.9.15
-    version: 0.9.15
   svelte:
     specifier: ^4.2.8
     version: 4.2.8
@@ -1225,16 +1222,6 @@ packages:
       '@img/sharp-wasm32': 0.33.1
       '@img/sharp-win32-ia32': 0.33.1
       '@img/sharp-win32-x64': 0.33.1
-    dev: true
-
-  /shikiji-core@0.9.15:
-    resolution: {integrity: sha512-7hqIcUKS15OMs/61Qp2GvO1fSajBB36bDqi8vexIg5kp80V6v6SGtBrlq+nLlo7erMG2d1kvIuTIq1bwKI6fEg==}
-    dev: true
-
-  /shikiji@0.9.15:
-    resolution: {integrity: sha512-+inN4cN+nY7b0uCPOiqFHAk+cn2DEdM3AIQgPhAV7QKqhww/o7OGS5xvLh3SNnjke9C/HispALqGOQGYHVq7KQ==}
-    dependencies:
-      shikiji-core: 0.9.15
     dev: true
 
   /simple-swizzle@0.2.2:

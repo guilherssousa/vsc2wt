@@ -1,27 +1,21 @@
 <script lang="ts">
-  import { codeToHtml } from 'shikiji'
-
-  export let text: string = "[\"Input the link for the theme extension.]\]";
+  export let text: string = "[Input the link for the theme extension.]";
 </script>
 
 <div class="output">
   <code>
     <pre>
-      {#await (codeToHtml(text, { lang: 'json', theme: "rose-pine" }))}
-        <p>Converting...</p>
-      {:then html}
-        {@html html}
-      {:catch error}
-        <p>{error.message}</p>
-      {/await}
+{text}     
     </pre>
   </code>
 </div>
 
 <style>
   .output {
+    background-color: var(--background);
     margin-top: 16px;
-    border: 1px solid #333;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--selectionBackground);
     border-radius: 4px;
   }
 </style>
