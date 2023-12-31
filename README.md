@@ -1,7 +1,7 @@
-# Visual Studio Code to Microsoft Terminal Theme Converter
+# Visual Studio Code to Windows Terminal Theme Converter
 
 As the name explains, this is a helper tool taht lets your convert
-your favorite Visual Studio Code themes to Microsoft Terminal color schemes.
+your favorite Visual Studio Code themes to Windows Terminal color schemes.
 
 ## Roadmap
 
@@ -12,7 +12,7 @@ your favorite Visual Studio Code themes to Microsoft Terminal color schemes.
 
 ## Reporting issues
 
-If you had any bad time using vsc2mst, then please check the [Issues](https://github.com/guilherssousa/vsc2mst/issues)
+If you had any bad time using vsc2wt, then please check the [Issues](https://github.com/guilherssousa/vsc2mst/issues)
 list, someone may had the same problem as you. If not, feel free to
 open a new Issue describing your problem.
 

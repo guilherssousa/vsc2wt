@@ -27,12 +27,17 @@
 
 <main>
   <div class="container">
+    <div class="icons">
+      <img src="/vscode.png" alt="VS Code" />
+      <img src="/windows-terminal.png" alt="Windows Terminal" />
+    </div>
+
     <h1>
-      VS Code to Microsoft Terminal Theme Converter
+      VS Code to Windows Terminal Theme Converter
     </h1>
 
     <p>
-      This is a simple tool to convert VS Code themes to Microsoft Terminal color schemes. 
+      This is a simple tool to convert VS Code themes to Window Terminal color schemes. 
       You just need to paste the GitHub repository link for the extension and the
       tool will do the rest.
     </p>
@@ -82,13 +87,15 @@
     }
   }
 
-  .output {
-    background-color: #1e1e1e;
-    padding: 16px;
+  .icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
-    margin-top: 16px;
-    border: 1px solid #333;
-    border-radius: 4px;
+    img {
+      height: 32px;
+      width: auto;
+    }
   }
 
   .token-list {
