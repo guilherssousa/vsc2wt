@@ -1,6 +1,7 @@
-# Visual Studio Code to Windows Terminal Theme Converter
+# [Visual Studio Code to Windows Terminal Theme Converter](https://vsc2mst.guilherssousa.dev)
 
 ![Contributions open!](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
+![Hosted on Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
 As the name explains, this is a helper tool taht lets your convert
 your favorite Visual Studio Code themes to Windows Terminal color schemes.

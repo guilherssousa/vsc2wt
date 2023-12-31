@@ -46,6 +46,7 @@
       <a href="https://github.com/guilherssousa/vsc2mst/#contributing">
         <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="Contributions welcome!"/>
       </a>
+      <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Hosted on Vercel" />
     </div>
 
     <p>
@@ -174,5 +175,11 @@
     column-gap: 8px;
     row-gap: 8px;
     flex-wrap: wrap;
+   }
+
+   .badges {
+     display: flex;
+     align-items: center;
+     gap: 16px;
    }
 </style>
