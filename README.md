@@ -7,8 +7,8 @@ your favorite Visual Studio Code themes to Microsoft Terminal color schemes.
 
 - [x] Convert via GitHub Repository
 - [x] Convert via Visual Studio Code Marketplace
-- [] Make the website prettier
-- [] Refactor for better error handling
+- [ ] Make the website prettier
+- [ ] Refactor for better error handling
 
 ## Reporting issues
 
