@@ -60,7 +60,7 @@
     </div>
 
     <p>
-      This is a simple tool to convert VS Code themes to Window Terminal color schemes. 
+      This is a simple tool to convert VS Code themes to Windows Terminal color schemes. 
       You just need to paste the GitHub repository link for the extension and the
       tool will do the rest.
     </p>
