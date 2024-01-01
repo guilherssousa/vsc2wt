@@ -1,103 +1,110 @@
-type OriginType = "github-repo" | "vscode-marketplace" | unknown
+type OriginType = "github-repo" | "vscode-marketplace" | unknown;
 
 export type ThemeDefinition = {
-  label: string,
-  uiTheme: string,
-  path: string,
+  label: string;
+  uiTheme: string;
+  path: string;
 };
 
 type Manifest = {
-  name: string,
-  publisher: string,
-  version: string,
-  description: string,
+  name: string;
+  publisher: string;
+  version: string;
+  description: string;
   scripts?: {
     build?: string;
-  },
+  };
   repository?: {
-    url: string,
-  },
+    url: string;
+  };
   contributes: {
-    themes: ThemeDefinition[],
-  },
+    themes: ThemeDefinition[];
+  };
 };
 
 export type VsCodeTheme = {
-  origin: string,
-  originType: OriginType,
-  repository: string,
-  branch: string,
+  origin: string;
+  originType: OriginType;
+  repository: string;
+  branch: string;
   manifest: Manifest;
-}
+};
 
-type ThemeColorDefinitions = {
-  name: string,
-  colors : {
-    "editor.background": string,
-    "terminal.foreground": string,
-    "terminal.ansiBlack": string,
-    "terminal.ansiBlue": string,
-    "terminal.ansiCyan": string,
-    "terminal.ansiGreen": string,
-    "terminal.ansiMagenta": string,
-    "terminal.ansiRed": string,
-    "terminal.ansiWhite": string,
-    "terminal.ansiYellow": string,
-    "terminal.ansiBrightBlack": string,
-    "terminal.ansiBrightBlue": string,
-    "terminal.ansiBrightCyan": string,
-    "terminal.ansiBrightGreen": string,
-    "terminal.ansiBrightMagenta": string,
-    "terminal.ansiBrightRed": string,
-    "terminal.ansiBrightWhite": string,
-    "terminal.ansiBrightYellow": string,
-    "terminal.selectionBackground": string,
-  },
-}
+export type ThemeColorDefinitions = {
+  name: string;
+  colors: {
+    "editor.background": string;
+    "terminal.foreground": string;
+    "terminal.ansiBlack": string;
+    "terminal.ansiBlue": string;
+    "terminal.ansiCyan": string;
+    "terminal.ansiGreen": string;
+    "terminal.ansiMagenta": string;
+    "terminal.ansiRed": string;
+    "terminal.ansiWhite": string;
+    "terminal.ansiYellow": string;
+    "terminal.ansiBrightBlack": string;
+    "terminal.ansiBrightBlue": string;
+    "terminal.ansiBrightCyan": string;
+    "terminal.ansiBrightGreen": string;
+    "terminal.ansiBrightMagenta": string;
+    "terminal.ansiBrightRed": string;
+    "terminal.ansiBrightWhite": string;
+    "terminal.ansiBrightYellow": string;
+    "terminal.selectionBackground": string;
+  };
+};
 
 export type WindowsTerminalTheme = ReturnType<typeof convertToMST>[0];
 
 type ThemeResult = {
-  theme: VsCodeTheme | undefined,
-  error: string | undefined,
-}
+  theme: VsCodeTheme | undefined;
+  error: string | undefined;
+};
 
-export async function getTheme(origin: string): Promise<ThemeResult>  {
+export async function getTheme(origin: string): Promise<ThemeResult> {
   try {
-    const theme: Partial<VsCodeTheme> = {}
+    const theme: Partial<VsCodeTheme> = {};
 
     const url = new URL(origin);
 
     switch (url.hostname) {
       case "github.com":
         theme.originType = "github-repo";
-        theme.repository = getRepository(origin)
+        theme.repository = getRepository(origin);
         theme.branch = await getRepositoryDefaultBranch(theme.repository);
         theme.manifest = await getManifest(theme.repository, theme.branch);
-        break 
+        break;
       case "marketplace.visualstudio.com":
         theme.originType = "vscode-marketplace";
-        break
+        break;
     }
 
     if (theme.manifest?.scripts?.build) {
-      throw new Error("Theme extensions with build scripts are not supported yet.")
+      throw new Error(
+        "Theme extensions with build scripts are not supported yet.",
+      );
     }
 
     return {
       theme: theme as VsCodeTheme,
       error: undefined,
-    } 
+    };
   } catch (e: unknown) {
     return {
       theme: undefined,
       error: (e as Error).message,
-    }
+    };
   }
 }
 
 function getRepository(origin: string): string {
-  return origin.replace(".git","").split("/").filter(Boolean).slice(2, 4).join("/")
+  return origin
+    .replace(".git", "")
+    .split("/")
+    .filter(Boolean)
+    .slice(2, 4)
+    .join("/");
 }
 
 async function getRepositoryDefaultBranch(repository: string): Promise<string> {
@@ -106,9 +113,13 @@ async function getRepositoryDefaultBranch(repository: string): Promise<string> {
   return response.default_branch;
 }
 
-
-export async function getManifest(repository: string, branch: string): Promise<Manifest | undefined>  {
-  const request = await fetch(`https://raw.githubusercontent.com/${repository}/${branch}/package.json`);
+export async function getManifest(
+  repository: string,
+  branch: string,
+): Promise<Manifest | undefined> {
+  const request = await fetch(
+    `https://raw.githubusercontent.com/${repository}/${branch}/package.json`,
+  );
   if (request.status !== 200) {
     return undefined;
   }
@@ -119,27 +130,32 @@ export async function getManifest(repository: string, branch: string): Promise<M
 function safeParseJson<T>(jsonString: string): T {
   const removedComments = jsonString
     .split("\n")
-    .filter(line => line && !line.trim().startsWith("//"))
+    .filter((line) => line && !line.trim().startsWith("//"))
     .join("\n");
 
   return JSON.parse(removedComments);
-} 
+}
 
 export async function getThemeFiles(theme: VsCodeTheme) {
-  try { 
-  const promises = theme.manifest.contributes.themes.map(async (themeDefinition) => {
-    const request = await fetch(`https://raw.githubusercontent.com/${theme.repository}/${theme.branch}/${themeDefinition.path}`);
-    return safeParseJson(await request.text()) as ThemeColorDefinitions
-  })
+  try {
+    const promises = theme.manifest.contributes.themes.map(
+      async (themeDefinition) => {
+        const request = await fetch(
+          `https://raw.githubusercontent.com/${theme.repository}/${theme.branch}/${themeDefinition.path}`,
+        );
+        return safeParseJson(await request.text()) as ThemeColorDefinitions;
+      },
+    );
 
-  const ranPromises = await Promise.allSettled(promises);
+    const ranPromises = await Promise.allSettled(promises);
 
-  const successfulPromises = ranPromises
-  .filter(promise => promise.status === "fulfilled") as PromiseFulfilledResult<ThemeColorDefinitions>[];
-  
-  const results = successfulPromises.map(promise => promise.value);
+    const successfulPromises = ranPromises.filter(
+      (promise) => promise.status === "fulfilled",
+    ) as PromiseFulfilledResult<ThemeColorDefinitions>[];
 
-  return {
+    const results = successfulPromises.map((promise) => promise.value);
+
+    return {
       themeFiles: results,
       error: undefined,
     };
@@ -147,7 +163,7 @@ export async function getThemeFiles(theme: VsCodeTheme) {
     return {
       files: undefined,
       errror: (e as Error).message,
-    }
+    };
   }
 }
 
@@ -173,7 +189,7 @@ export function convertToMST(themes: ThemeColorDefinitions[]) {
     white: colors["terminal.ansiWhite"],
     yellow: colors["terminal.ansiYellow"],
     selectionBackground: colors["terminal.selectionBackground"],
-  }))
+  }));
 }
 
 export function themeToVar(theme: WindowsTerminalTheme) {

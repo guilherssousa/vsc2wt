@@ -8,7 +8,8 @@
     convertToMST,
     themeToVar,
     type VsCodeTheme,
-    type WindowsTerminalTheme
+    type WindowsTerminalTheme,
+    type ThemeColorDefinitions,
   } from "./lib/converter";
 
   import './theme.scss';
@@ -38,7 +39,7 @@
       output = fileError; 
     }
 
-    convertedThemes = convertToMST(themeFiles)
+    convertedThemes = convertToMST(themeFiles as ThemeColorDefinitions[])
     customStyle = themeToVar(convertedThemes[0])
 
     output = JSON.stringify(convertedThemes, null, 2);
@@ -47,7 +48,8 @@
 
 
 <main style={customStyle}>
-  <div class="background"/>
+  <div class="background" />
+
   <div class="container">
     <div class="icons">
       <img src="/vscode.png" alt="VS Code" />
@@ -113,13 +115,22 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(body, html) {
+    margin: 0;
+  }
+
   h2 {
     text-align: center;
   }
 
- main {
-    width: 100vw;
+  main {
     color: var(--white);
+    position: relative;
+    padding-top: 4rem;
   }
 
   .background {
@@ -137,7 +148,6 @@
     margin: 0 auto;
     background-color: var(--black);
     padding: 2rem 1rem;
-    margin-top: 4rem;
   }
 
   form {
