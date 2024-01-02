@@ -82,7 +82,7 @@ export async function getTheme(origin: string): Promise<ThemeResult> {
 
     if (theme.manifest?.scripts?.build) {
       throw new Error(
-        "Theme extensions with build scripts are not supported yet.",
+        "Theme extensions with build scripts are not supported yet.\nYou can follow the efforts to support this here:\nhttps://github.com/guilherssousa/vsc2wt/issues/1",
       );
     }
 
